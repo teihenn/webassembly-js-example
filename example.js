@@ -20,3 +20,9 @@ function doProcess() {
     const results = new Float32Array(memory.buffer, resultAddr, 3);
     console.log("results: " + results);
 }
+
+function instantiateWasm(wasmFile) {
+    const module = new WebAssembly.Module(wasmFile);
+    return new WebAssembly.Instance(module, {});
+}
+
