@@ -1,5 +1,7 @@
 # webassembly-js-example
 
+A sample application demonstrating array processing in WebAssembly using Emscripten and JavaScript interaction.
+
 ## Prerequisites
 
 - Docker
