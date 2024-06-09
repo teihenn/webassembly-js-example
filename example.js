@@ -26,3 +26,22 @@ function instantiateWasm(wasmFile) {
     return new WebAssembly.Instance(module, {});
 }
 
+/**
+ * Allocate memory and assign values to the wasm module
+ * @param {WebAssembly.Instance} wasm
+ * @param {number[]} array
+ * @param {string} type - data type("int32" or "float32")
+ * @returns {Int32Array|Float32Array} - allocated memory
+ */
+function allocAndAssignVals(wasm, array, type) {
+    const { memory, alloc } = wasm.exports;
+    const addr = alloc(array.length * 4);
+    const obj = type === "int32" ? Int32Array : Float32Array;
+    const data = new obj(memory.buffer, addr, array.length);
+    for (let i = 0; i < array.length; i++) {
+        data[i] = array[i];
+    }
+    return data;
+}
+
+
