@@ -1,4 +1,6 @@
-#include <emscripten/emscripten.h>
+#include "process.h"
+#include <stdio.h>
+#include "dbg.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -10,6 +12,13 @@ float* EMSCRIPTEN_KEEPALIVE process(int* a,
                                     int num_of_b) {
   static float ret[3] = {0., 0., 0.};
   for (int i = 0; i < num_of_a; i++) {
+    // In WASM, functions like printf cannot be used, so for debugging purposes,
+    // values are stored in memory and then retrieved from JS.
+#ifdef DEBUG
+    char buf[256];
+    snprintf(buf, sizeof(buf), ">> [%d] = %d\n", i, a[i]);
+    set_msg(buf);
+#endif
     ret[0] += static_cast<float>(a[i]);
   }
   for (int i = 0; i < num_of_b; i++) {
@@ -17,14 +26,6 @@ float* EMSCRIPTEN_KEEPALIVE process(int* a,
   }
   ret[2] = ret[0] + ret[1];
   return ret;
-}
-
-void* EMSCRIPTEN_KEEPALIVE alloc(int size) {
-  return malloc(size);
-}
-
-void EMSCRIPTEN_KEEPALIVE dealloc(void* address) {
-  free(address);
 }
 
 #ifdef __cplusplus
