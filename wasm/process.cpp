@@ -3,13 +3,11 @@
 #include "dbg.h"
 
 // Without "extern "C"", attempting to call process() from js/process.js would
-// result in a TypeError: process is not a function
-// Without "extern "C"", attempting to call process() from js/process.js would
-// result in a TypeError: process is not a function. This is because C++
-// compilers apply name mangling to function names, which changes their names in
-// the compiled output. Using "extern "C"" prevents name mangling, ensuring the
-// function name remains consistent and recognizable when called from other
-// languages like JavaScript.
+// result in a TypeError: process is not a function.
+// This is because C++ compilers apply name mangling to function names, which
+// changes their names in the compiled output.
+// Using "extern "C"" prevents name mangling, ensuring the function name remains
+// consistent and recognizable when called from other languages like JavaScript.
 #ifdef __cplusplus
 extern "C" {
 #endif
