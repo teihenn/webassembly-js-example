@@ -1,7 +1,10 @@
 cmake_minimum_required(VERSION 3.22)
-project(wasm_js_ex)
+project(webassembly_js_example)
 
-add_executable(example sample.cpp)
-set_target_properties(example PROPERTIES OUTPUT_NAME example)
-target_compile_options(example PUBLIC -O3 --no-entry)
-target_link_options(example PUBLIC -s STANDALONE_WASM=1 --no-entry)
+if(DEBUG)
+    set(CMAKE_CXX_FLAGS "-g -DDEBUG=1")
+endif()
+
+message(">> MAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}")
+
+add_subdirectory(wasm)
