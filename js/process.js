@@ -9,15 +9,11 @@ function doProcess() {
     const intArr = [1, 2, 3, 4, 5];
     const intArrAddr = _allocAndAssignVals(wasm, intArr, "int32");
 
-    console.log("intArrAddr: " + intArrAddr);
-
-    const floatArr = [1.0, 2.0, 3.0, 4.0, 5.0];
+    const floatArr = [5.0, 6.0, 7.0, 8.0, 9.0];
     const floatArrAddr = _allocAndAssignVals(wasm, floatArr, "float32");
 
-    console.log("floatArrAddr: " + floatArrAddr);
-
     const { process, memory, get_msg } = wasm.exports;
-    const resultAddr = process(intArrAddr, intArr.length, floatArrAddr, floatArr.length);
+    const resultAddr = process(intArrAddr.byteOffset, intArr.length, floatArrAddr.byteOffset, floatArr.length);
     _deallocMemory(wasm, intArrAddr, floatArrAddr);
 
     const results = new Float32Array(memory.buffer, resultAddr, 3);
