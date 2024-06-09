@@ -44,4 +44,17 @@ function allocAndAssignVals(wasm, array, type) {
     return data;
 }
 
+/**
+ * Deallocate wasm memory
+ * @param {WebAssembly.Instance} wasm
+ * @param {...TypedArray} addrs - memory addresses
+ */
+function deallocMemory(wasm, ...addrs) {
+    const { dealloc } = wasm.exports;
+    for (const addr of addrs) {
+        dealloc(addr.byteOffset);
+    }
+}
+
+module.exports = { doProcess };
 
